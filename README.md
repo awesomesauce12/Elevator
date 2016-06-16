@@ -54,13 +54,21 @@ Determine if we need to slow down as we approach stop (threshold?)
 Display current encoder value
 
 DETERMINE 1ST STOP
+
 Conversion from feet → encoder values
+
 Before executing: algorithm with predetermined conversions
+
 Slow down before stop
+
 Threshold/buffer
+
 Going down
+
 Same idea, but account for gravity/look more at the speed and resistance 
+
 Bottom limit switch
+
 Going down to bottom
 Same as “going down” but account for bottom limit switch
 Threshold for limit switch
