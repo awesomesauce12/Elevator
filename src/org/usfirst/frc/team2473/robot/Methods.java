@@ -12,6 +12,7 @@ public class Methods {
 	int end;
 	int top;
 	int totalHeight;
+	int i = 0;
 	
 	int currentPos;
 	int nextStop;
@@ -88,23 +89,51 @@ public class Methods {
 //			//lower 
 //		}
 		
-		
-		
+
+		int diff = stops[i] - currentPos;
+		if (diff>0){
+			//raise	
+			}
+		else if (diff < 0){
+				//lower
+		}
+		else {
+				//stop
+		}
 	}
 	
-	
 	public void raising(){
-//		if ( - currentPos < 5){
-			
-//		}
+		if (stops[i] - getEncPosition() < 5){
+			//stop
+		}
+		else if (stops[i] - getEncPosition() < 10){
+			//slow the speed to 0.05
+		}
+		else{
+			//speed set at 0.2
+		}
 	}
 	
 	public void lowering(){
-		
+		if (getEncPosition() - stops[i] < 5){
+			//stop
+		}
+		else if (getEncPosition() - stops[i] < 10{
+			//slow the speed to -.15
+		}
+		else{
+			//speed set at -.02
+		}
 	}
 	
 	//adjustment
 	public void stopping(){
+		if (stops[i] - getEncPosition() > 5){
+			//raise at 0.05 speed
+		}
+		else if(getEncPosition() - stops[i] > 5 ){
+			//set speed to -.02 (lower)
+		}
 		
 	}
 	
