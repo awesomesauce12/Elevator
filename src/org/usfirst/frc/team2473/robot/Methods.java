@@ -46,49 +46,6 @@ public class Methods {
 	public void determine(){
 		//Given: Which stop we are currently at --> currentStop
 		//Goal: determine if we're going up or down according to our current stop and the next stop
-//		if (nextStop == 1){
-//			int diff = stop1 - currentPos;
-//			if (diff > 0){
-//				//raise
-//			}
-//			else if (diff < 0){
-//				//lower
-//			}
-//			else {
-//				//stop
-//			}
-//			nextStop++;
-//		}
-//		else if (nextStop == 2){
-//			int diff = stop2 - currentPos;
-//			if (diff > 0){
-//				//raise
-//			}
-//			else if (diff < 0){
-//				//lower
-//			}
-//			else {
-//				//stop
-//			}
-//			nextStop++;
-//		}
-//		else if (nextStop == 3){
-//			int diff = stop3 - currentPos;
-//			if (diff > 0){
-//				//raise
-//			}
-//			else if (diff < 0){
-//				//lower
-//			}
-//			else {
-//				//stop
-//			}
-//			nextStop = 0;
-//		}
-//		else if (nextStop == 0){
-//			//lower 
-//		}
-		
 
 		int diff = stops[i] - currentPos;
 		if (diff>0){
@@ -103,10 +60,10 @@ public class Methods {
 	}
 	
 	public void raising(){
-		if (stops[i] - getEncPosition() < 5){
+		if (stops[i] - motor.getEncPosition() <= 5){
 			//stop
 		}
-		else if (stops[i] - getEncPosition() < 10){
+		else if (stops[i] - motor.getEncPosition() <= 10){
 			//slow the speed to 0.05
 		}
 		else{
@@ -115,26 +72,34 @@ public class Methods {
 	}
 	
 	public void lowering(){
-		if (getEncPosition() - stops[i] < 5){
+		if (motor.getEncPosition() - stops[i] <= 5){
 			//stop
 		}
-		else if (getEncPosition() - stops[i] < 10{
-			//slow the speed to -.15
+		else if (motor.getEncPosition() - stops[i] <= 10){
+			//slow the speed to -.02
 		}
 		else{
-			//speed set at -.02
+			//speed set at -.15
 		}
 	}
 	
 	//adjustment
 	public void stopping(){
-		if (stops[i] - getEncPosition() > 5){
+		if (stops[i] - motor.getEncPosition() > 5){
 			//raise at 0.05 speed
+			motor.set(0.05);
 		}
-		else if(getEncPosition() - stops[i] > 5 ){
+		else if(motor.getEncPosition() - stops[i] > 5 ){
 			//set speed to -.02 (lower)
+			motor.set(-0.02);
 		}
-		
+		else{
+			//set motor speed to 0.0 (stop)
+			stop(); 
+		}		
 	}
-	
+	public void stop(){
+		//set motor speed to 0.0
+		motor.set(0.0);
+	}
 }
