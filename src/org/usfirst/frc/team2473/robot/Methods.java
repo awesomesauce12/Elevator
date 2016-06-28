@@ -49,37 +49,37 @@ public class Methods {
 
 		int diff = stops[i] - currentPos;
 		if (diff>0){
-			//raise	
-			}
+			raising();	
+		}
 		else if (diff < 0){
-				//lower
+			lowering();
 		}
 		else {
-				//stop
+			stop();
 		}
 	}
 	
 	public void raising(){
 		if (stops[i] - motor.getEncPosition() <= 5){
-			//stop
+			stop();
 		}
 		else if (stops[i] - motor.getEncPosition() <= 10){
-			//slow the speed to 0.05
+			motor.set(0.05);
 		}
 		else{
-			//speed set at 0.2
+			motor.set(0.2);
 		}
 	}
 	
 	public void lowering(){
 		if (motor.getEncPosition() - stops[i] <= 5){
-			//stop
+			stop();
 		}
 		else if (motor.getEncPosition() - stops[i] <= 10){
-			//slow the speed to -.02
+			motor.set(-0.02);
 		}
 		else{
-			//speed set at -.15
+			motor.set(-0.15);
 		}
 	}
 	
