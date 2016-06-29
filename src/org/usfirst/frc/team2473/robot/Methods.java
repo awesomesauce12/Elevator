@@ -72,30 +72,30 @@ public class Methods {
 		
 		stops[i] = 1500;
 		
-		if (stops[i] - motor.getEncPosition() <= 5){
+		if (stops[i] - motor.getEncPosition() <= 50){
 			SmartDashboard.putString("DB/String 0", "Stopping");
 			stopping();
 		}
-		else if (stops[i] - motor.getEncPosition() <= 10){
-			motor.set(0.05);
+		else if (stops[i] - motor.getEncPosition() <= 100){
+			motor.set(0.1);
 			SmartDashboard.putString("DB/String 0", "Slowing down");
 		}
 		else{
-			motor.set(0.2);
+			motor.set(0.25);
 			SmartDashboard.putString("DB/String 0", "Normal");
 		}
 	}
 	
 	public void lowering(){
 		
-		if (motor.getEncPosition() - stops[i] <= 5){
+		if (motor.getEncPosition() - stops[i] <= 50){
 			stopping();
 		}
-		else if (motor.getEncPosition() - stops[i] <= 10){
-			motor.set(-0.02);
+		else if (motor.getEncPosition() - stops[i] <= 100){
+			motor.set(-0.05);
 		}
 		else{
-			motor.set(-0.15);
+			motor.set(-0.2);
 		}
 
 	}
@@ -105,13 +105,13 @@ public class Methods {
 		
 		SmartDashboard.putString("DB/String 5", "Val: " + motor.getEncPosition());
 		
-		if (stops[i] - motor.getEncPosition() > 5){
-			//raise at 0.05 speed
-			motor.set(0.05);
+		if (stops[i] - motor.getEncPosition() > 50){
+			//raise at 0.1 speed
+			motor.set(0.1);
 			SmartDashboard.putString("DB/String 1", "Going up");
 		}
-		else if(motor.getEncPosition() - stops[i] > 5 ){
-			//set speed to -.02 (lower)
+		else if(motor.getEncPosition() - stops[i] > 50 ){
+			//set speed to -.05 (lower)
 			motor.set(-0.05);
 			SmartDashboard.putString("DB/String 1", "Going down");
 		}
