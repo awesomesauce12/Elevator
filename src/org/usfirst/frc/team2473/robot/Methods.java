@@ -17,7 +17,7 @@ public class Methods {
 	int currentPos;
 	int nextStop;
 	
-	int[] stops = {2,5,1,0}; //user inputs
+	double[] stops = {1457,2499,625,0}; //user inputs
 	int index;
 	
 	public Methods(){
@@ -26,7 +26,7 @@ public class Methods {
 		index = 0; //index of "stops"
 		
 		top = 3124; //predetermined: encoder value for top of the elevator
-		totalHeight = 0.75; //total height in feet of the elevator
+		totalHeight = 0.75; //total height in feet of the elevator*100
 		
 		currentPos = 0; // current encoder value
 		
@@ -36,6 +36,10 @@ public class Methods {
     	motor.enableControl();
     	
     	motor.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
+    	
+//    	stops[0] = stops[0] * (top / totalHeight);
+//		stops[1] = stops[1] * (top / totalHeight);
+//		stops[2] = stops[2] * (top / totalHeight);
 	}
 	
 	
@@ -44,9 +48,14 @@ public class Methods {
 		//Given: stop123 in FEET
 		//Goal: stop123 in ENCODER --> make this the new value of "stop123"
 		
-		stops[0] = (int)(stops[0] * top / totalHeight);
-		stops[1] = (int)(stops[1] * top / totalHeight);
-		stops[2] = (int)(stops[2] * top / totalHeight);
+//		stops[0] = stops[0] * (top / totalHeight);
+//		stops[1] = stops[1] * (top / totalHeight);
+//		stops[2] = stops[2] * (top / totalHeight);
+//		
+//		SmartDashboard.putString("DB/String 7", "" + stops[0]);
+//		SmartDashboard.putString("DB/String 8", "" + stops[1]);
+//		SmartDashboard.putString("DB/String 9", "" + stops[2]);
+
 	}
 	
 	//determine if raising or lowering
@@ -54,7 +63,7 @@ public class Methods {
 		//Given: Which stop we are currently at --> currentStop
 		//Goal: determine if we're going up or down according to our current stop and the next stop
 
-		int diff = stops[i] - currentPos;
+		double diff = stops[i] - currentPos;
 		if (diff>0){
 			raising();	
 		}
@@ -126,7 +135,10 @@ public class Methods {
 		
 		//set motor speed to 0.0
 		motor.set(0.0);
-		i++;
+		if (i < 4){
+			i++;		
+		}
 		SmartDashboard.putString("DB/String 1", "Stopped");
+//		determine();
 	}
 }
