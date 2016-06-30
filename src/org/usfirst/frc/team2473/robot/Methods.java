@@ -11,7 +11,7 @@ public class Methods {
 	
 	int end;
 	int top;
-	int totalHeight;
+	double totalHeight;
 	int i = 0;
 	
 	int currentPos;
@@ -25,8 +25,8 @@ public class Methods {
 		
 		index = 0; //index of "stops"
 		
-		top = 3000; //predetermined: encoder value for top of the elevator
-		totalHeight = 7; //total height in feet of the elevator
+		top = 3124; //predetermined: encoder value for top of the elevator
+		totalHeight = 0.75; //total height in feet of the elevator
 		
 		currentPos = 0; // current encoder value
 		
@@ -44,9 +44,9 @@ public class Methods {
 		//Given: stop123 in FEET
 		//Goal: stop123 in ENCODER --> make this the new value of "stop123"
 		
-		stops[0] = stops[0] * top / totalHeight;
-		stops[1] = stops[1] * top / totalHeight;
-		stops[2] = stops[2] * top / totalHeight;
+		stops[0] = (int)(stops[0] * top / totalHeight);
+		stops[1] = (int)(stops[1] * top / totalHeight);
+		stops[2] = (int)(stops[2] * top / totalHeight);
 	}
 	
 	//determine if raising or lowering
@@ -70,7 +70,7 @@ public class Methods {
 		
 		SmartDashboard.putString("DB/String 5", "Val: " + motor.getEncPosition());
 		
-		stops[i] = 1500;
+//		stops[i] = 1500;
 		
 		if (stops[i] - motor.getEncPosition() <= 50){
 			SmartDashboard.putString("DB/String 0", "Stopping");
