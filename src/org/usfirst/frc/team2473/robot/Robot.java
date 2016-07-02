@@ -49,7 +49,9 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
 //    	function.conversion();
-        function.raising();
+    	
+//        function.raising();
+        function.joyControl();
     }
     
     /**

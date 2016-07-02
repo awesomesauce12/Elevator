@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2473.robot;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -13,6 +14,7 @@ public class Methods {
 	int top;
 	double totalHeight;
 	int i = 0;
+	private Joystick joy;
 	
 	int currentPos;
 	int nextStop;
@@ -21,6 +23,7 @@ public class Methods {
 	int index;
 	
 	public Methods(){
+		joy = new Joystick(0);
 		motor = new CANTalon(5);
 		
 		index = 0; //index of "stops"
@@ -42,6 +45,19 @@ public class Methods {
 //		stops[2] = stops[2] * (top / totalHeight);
 	}
 	
+	
+	public void joyControl(){
+		if(joy.getRawButton(3)){
+    		motor.set(0.3);
+    		
+    	}
+    	else if(joy.getRawButton(2)) {
+    		motor.set(-0.3);
+    	}
+    	else{
+    		motor.set(0);
+    	}
+	}
 	
 	//convert feet (input) to encoder values
 	public void conversion(){
