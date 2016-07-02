@@ -17,7 +17,7 @@ public class Methods {
 	int currentPos;
 	int nextStop;
 	
-	double[] stops = {1457,2499,625,0}; //user inputs
+	double[] stops = {1457,2499,625,0}; //user inputs  //{0.35, 0.55, 0.20,0}
 	int index;
 	
 	public Methods(){
@@ -45,16 +45,16 @@ public class Methods {
 	
 	//convert feet (input) to encoder values
 	public void conversion(){
-		//Given: stop123 in FEET
-		//Goal: stop123 in ENCODER --> make this the new value of "stop123"
+		//Given: stops in FEET
+		//Goal: stops in ENCODER --> make these values the new values in "stops"
 		
-//		stops[0] = stops[0] * (top / totalHeight);
-//		stops[1] = stops[1] * (top / totalHeight);
-//		stops[2] = stops[2] * (top / totalHeight);
-//		
-//		SmartDashboard.putString("DB/String 7", "" + stops[0]);
-//		SmartDashboard.putString("DB/String 8", "" + stops[1]);
-//		SmartDashboard.putString("DB/String 9", "" + stops[2]);
+		stops[0] = stops[0] * (top / totalHeight);
+		stops[1] = stops[1] * (top / totalHeight);
+		stops[2] = stops[2] * (top / totalHeight);
+		
+		SmartDashboard.putString("DB/String 7", "" + stops[0]);
+		SmartDashboard.putString("DB/String 8", "" + stops[1]);
+		SmartDashboard.putString("DB/String 9", "" + stops[2]);
 
 	}
 	
@@ -82,16 +82,18 @@ public class Methods {
 //		stops[i] = 1500;
 		
 		if (stops[i] - motor.getEncPosition() <= 50){
-			SmartDashboard.putString("DB/String 0", "Stopping");
-			stopping();
+			SmartDashboard.putString("DB/String 2", "Stopping");
+//			stopping();
+			motor.set(0);
+			SmartDashboard.putString("DB/String 9", "Stopped");
 		}
-		else if (stops[i] - motor.getEncPosition() <= 100){
+		else if (stops[i] - motor.getEncPosition() <= 200){
+			SmartDashboard.putString("DB/String 1", "Slowing down");
 			motor.set(0.1);
-			SmartDashboard.putString("DB/String 0", "Slowing down");
 		}
 		else{
-			motor.set(0.25);
 			SmartDashboard.putString("DB/String 0", "Normal");
+			motor.set(0.25);	
 		}
 	}
 	
@@ -112,17 +114,17 @@ public class Methods {
 	//adjustment
 	public void stopping(){
 		
-		SmartDashboard.putString("DB/String 5", "Val: " + motor.getEncPosition());
+		SmartDashboard.putString("DB/String 3", "Val: " + motor.getEncPosition());
 		
 		if (stops[i] - motor.getEncPosition() > 50){
 			//raise at 0.1 speed
 			motor.set(0.1);
-			SmartDashboard.putString("DB/String 1", "Going up");
+			SmartDashboard.putString("DB/String 4", "Going up");
 		}
 		else if(motor.getEncPosition() - stops[i] > 50 ){
 			//set speed to -.05 (lower)
 			motor.set(-0.05);
-			SmartDashboard.putString("DB/String 1", "Going down");
+			SmartDashboard.putString("DB/String 4", "Going down");
 		}
 		else{
 			//set motor speed to 0.0 (stop)
@@ -138,7 +140,7 @@ public class Methods {
 		if (i < 4){
 			i++;		
 		}
-		SmartDashboard.putString("DB/String 1", "Stopped");
+		SmartDashboard.putString("DB/String 6", "Stopped");
 //		determine();
 	}
 }
