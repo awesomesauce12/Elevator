@@ -20,7 +20,7 @@ public class Methods {
 	int currentPos;
 	int nextStop;
 	
-	double[] stops = {0.85, 0.55, 0.20, 0};
+	double[] stops = {1500, 2500, 500, 0};
 	int index;
 	
 	public Methods(){
@@ -68,6 +68,7 @@ public class Methods {
     	else{
     		motor.set(0);
     	}
+		SmartDashboard.putString("DB/String 3", "Val: " + motor.getEncPosition());
 	}
 	
 	//convert feet (input) to encoder values
@@ -89,37 +90,48 @@ public class Methods {
 	public void determine(){
 		//Given: Which stop we are currently at --> currentStop
 		//Goal: determine if we're going up or down according to our current stop and the next stop
+		
+		SmartDashboard.putString("DB/String 2", "determining");
 
 		double diff = stops[i] - currentPos;
 		if (diff>0){
 			currentState = State.RAISING; 
+			runLoop();
+//			SmartDashboard.putString("DB/String 3", "raising");
 		}
 		else if (diff < 0){
 			currentState = State.LOWERING; 
+			runLoop();
+//			SmartDashboard.putString("DB/String 3", "lowering");
 		}
 		else {
 			currentState = State.STOP; 
+			runLoop();
+//			SmartDashboard.putString("DB/String 3", "stop");
 		}
 	}
 	
 	public void raising(){
 		
-		SmartDashboard.putString("DB/String 5", "Val: " + motor.getEncPosition());
+		SmartDashboard.putString("DB/String 2", "raising for real");
+//		SmartDashboard.putString("DB/String 5", "Val: " + motor.getEncPosition());
 		
-//		stops[i] = 1500;
+		double x = stops[i];
 		
-		if (stops[i] - motor.getEncPosition() <= 50){
+		if (x - motor.getEncPosition() <= 50){
 			SmartDashboard.putString("DB/String 2", "Stopping");
 //			stopping();
+			motor.set(0.0);
 			currentState = State.STOPPING; 
+			runLoop();
 		}
-		else if (stops[i] - motor.getEncPosition() <= 200){
+		else if (x - motor.getEncPosition() <= 100){
 			SmartDashboard.putString("DB/String 1", "Slowing down");
-			motor.set(0.1);
+			motor.set(0.2);
 		}
 		else{
 			SmartDashboard.putString("DB/String 0", "Normal");
-			motor.set(0.25);	
+			motor.set(0.3);	
 		}
 	}
 	
@@ -129,14 +141,15 @@ public class Methods {
 			SmartDashboard.putString("DB/String 2", "Stopping");
 //			stopping();
 			currentState = State.STOPPING; 
+			runLoop();
 		}
 		else if (motor.getEncPosition() - stops[i] <= 100){
-			motor.set(-0.05);
+			motor.set(-0.2);
 			SmartDashboard.putString("DB/String 1", "Slowing down");
 		}
 		else{
 			SmartDashboard.putString("DB/String 0", "Normal");
-			motor.set(-0.2);
+			motor.set(-0.3);
 		}
 
 	}
@@ -145,23 +158,26 @@ public class Methods {
 	public void stopping(){
 		
 		SmartDashboard.putString("DB/String 3", "Val: " + motor.getEncPosition());
+		SmartDashboard.putString("DB/String 10", "STOPPING");
+
 		
 		if (stops[i] - motor.getEncPosition() > 50){
 			//raise at 0.1 speed
 //			motor.set(0.1);
-			motor.set(0.20);
+			motor.set(0.15);
 			SmartDashboard.putString("DB/String 4", "Going up");
 		}
 		else if(motor.getEncPosition() - stops[i] > 50 ){
 			//set speed to -.05 (lower)
 //			motor.set(-0.05);
-			motor.set(-0.20);
+			motor.set(-0.15);
 			SmartDashboard.putString("DB/String 4", "Going down");
 		}
 		else{
 			//set motor speed to 0.0 (stop)
 //			stop(); 
 			currentState = State.STOP; 
+			runLoop();
 		}		
 	}
 	public void stop(){
@@ -173,6 +189,7 @@ public class Methods {
 		if (i < 4){
 			i++;	
 			currentState = State.DETERMINE; 
+			runLoop();
 		}
 		if (i == 4){
 			motor.set(0.0);
