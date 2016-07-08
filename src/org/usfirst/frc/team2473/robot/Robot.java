@@ -44,14 +44,21 @@ public class Robot extends IterativeRobot {
     public void autonomousPeriodic() {
     }
 
+    @Override
+    public void teleopInit() {
+    	function.conversion();
+    	function.determine();
+    }
+    
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
     	
+    	function.runLoop();
     	
-//    	function.determine();
-    	function.joyControl();
+    	
+//    	function.joyControl();
     }
     
     /**

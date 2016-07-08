@@ -7,12 +7,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Methods {
 
-
+	private enum State{
+		DETERMINE,
+		RAISING,
+		LOWERING,
+		STOPPING,
+		STOP;
+	}
+	
 	CANTalon motor;
 	
 	
 	int end;
-	int top;
+	double top;
 	double totalHeight;
 	int i = 0;
 	private Joystick joy;
@@ -20,8 +27,10 @@ public class Methods {
 	int currentPos;
 	int nextStop;
 	
-	double[] stops = {1500, 2500, 500, 0};
+	double[] stops = {0.35, 0.6, 0.1, 0};
 	int index;
+	
+	private State currentState;
 	
 	public Methods(){
 		joy = new Joystick(0);
@@ -92,21 +101,21 @@ public class Methods {
 		//Goal: determine if we're going up or down according to our current stop and the next stop
 		
 		SmartDashboard.putString("DB/String 2", "determining");
+		SmartDashboard.putString("DB/String 7", "" + i);
 
 		double diff = stops[i] - currentPos;
 		if (diff>0){
 			currentState = State.RAISING; 
-			runLoop();
 //			SmartDashboard.putString("DB/String 3", "raising");
 		}
 		else if (diff < 0){
 			currentState = State.LOWERING; 
-			runLoop();
+
 //			SmartDashboard.putString("DB/String 3", "lowering");
 		}
 		else {
 			currentState = State.STOP; 
-			runLoop();
+
 //			SmartDashboard.putString("DB/String 3", "stop");
 		}
 	}
@@ -123,7 +132,6 @@ public class Methods {
 //			stopping();
 			motor.set(0.0);
 			currentState = State.STOPPING; 
-			runLoop();
 		}
 		else if (x - motor.getEncPosition() <= 100){
 			SmartDashboard.putString("DB/String 1", "Slowing down");
@@ -141,15 +149,14 @@ public class Methods {
 			SmartDashboard.putString("DB/String 2", "Stopping");
 //			stopping();
 			currentState = State.STOPPING; 
-			runLoop();
 		}
 		else if (motor.getEncPosition() - stops[i] <= 100){
 			motor.set(-0.2);
-			SmartDashboard.putString("DB/String 1", "Slowing down");
+			SmartDashboard.putString("DB/String 9", "Slowing down");
 		}
 		else{
-			SmartDashboard.putString("DB/String 0", "Normal");
-			motor.set(-0.3);
+			SmartDashboard.putString("DB/String 8", "Normal");
+			motor.set(-0.4);
 		}
 
 	}
@@ -177,7 +184,6 @@ public class Methods {
 			//set motor speed to 0.0 (stop)
 //			stop(); 
 			currentState = State.STOP; 
-			runLoop();
 		}		
 	}
 	public void stop(){
@@ -186,25 +192,22 @@ public class Methods {
 		
 		//set motor speed to 0.0
 		motor.set(0.0);
-		if (i < 4){
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (i < 3){
 			i++;	
 			currentState = State.DETERMINE; 
-			runLoop();
-		}
-		if (i == 4){
-			motor.set(0.0);
+			currentPos = motor.getEncPosition();
 		}
 		SmartDashboard.putString("DB/String 6", "Stopped");
 	}
 	
-	private enum State{
-		DETERMINE,
-		RAISING,
-		LOWERING,
-		STOPPING,
-		STOP;
-	}
 	
-	private State currentState;
+	
+	
 	
 }
